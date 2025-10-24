@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 🍽️ Campus Canteen Ordering System
 
 A modern full-stack self-ordering web application built for campus canteens.
@@ -5,11 +6,40 @@ Students can browse menu items, add to cart, choose payment methods, and receive
 
 🚀 Live Features
 
+=======
+# 🍔 Campus Canteen Ordering System
+
+A modern **Flask-based Campus Canteen Ordering System** that enables students to order food online and allows administrators to efficiently manage menu items and customer orders. The application provides a simple, user-friendly interface with secure authentication and real-time order management.
+
+---
+
+## 📌 Features
+
+### 👨‍🎓 Student Module
+- User Registration & Login
+- Browse Food Menu
+- Add Items to Cart
+- Place Orders
+- View Order History
+- Order Token Generation
+- Responsive User Interface
+
+### 👨‍🍳 Admin Module
+- Secure Admin Login
+- Add Food Items
+- Edit Food Items
+- Delete Food Items
+- Manage Customer Orders
+- Update Order Status
+- View All Orders
+
+>>>>>>> 28c2766 (Add remaining project files)
 ---
 
 ## 🏠 Menu Page
 ![Menu](https://github.com/user-attachments/assets/9e7bf218-0276-42a1-9b38-119b0b24f477)
 
+<<<<<<< HEAD
 - Categorized food items  
 - Quantity controls (+ / -)  
 - Dynamic cart update  
@@ -148,3 +178,224 @@ Mandar Ramchandra Kulkarni
 BCA | Full Stack Developer
 📍 Karnataka, India
 🔗 GitHub: https://github.com/mandark-87
+=======
+### Frontend
+- HTML5
+- CSS3
+- Bootstrap 5
+- JavaScript
+
+### Backend
+- Python
+- Flask
+
+### Database
+- MongoDB
+
+### Deployment
+- AWS EC2
+- Gunicorn
+- Nginx
+
+### Version Control
+- Git
+- GitHub
+
+---
+
+## 📂 Project Structure
+
+```
+Canteen-order-system/
+│
+├── app/
+│   ├── routes/
+│   ├── models/
+│   ├── templates/
+│   ├── static/
+│   └── __init__.py
+│
+├── config.py
+├── run.py
+├── wsgi.py
+├── requirements.txt
+├── Procfile
+├── runtime.txt
+├── README.md
+└── .gitignore
+```
+
+---
+
+## 🚀 Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/mandark-87/Canteen-order-system.git
+cd Canteen-order-system
+```
+
+---
+
+### 2. Create Virtual Environment
+
+Windows
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+Linux / macOS
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+---
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### 4. Configure MongoDB
+
+Update your MongoDB connection string in your configuration file.
+
+Example:
+
+```python
+MONGO_URI = "mongodb://localhost:27017/canteen"
+```
+
+or
+
+```python
+MONGO_URI = "mongodb+srv://<username>:<password>@cluster.mongodb.net/canteen"
+```
+
+---
+
+### 5. Run the Application
+
+```bash
+python run.py
+```
+
+or
+
+```bash
+flask run
+```
+
+Open your browser:
+
+```
+http://127.0.0.1:5000
+```
+
+---
+
+## ☁️ AWS Deployment
+
+The application can be deployed on:
+
+- Amazon EC2
+- Gunicorn
+- Nginx
+
+Deployment Steps:
+
+1. Launch EC2 Instance
+2. Connect via SSH
+3. Clone Repository
+4. Create Virtual Environment
+5. Install Requirements
+6. Configure Gunicorn
+7. Configure Nginx
+8. Start Application
+
+---
+
+## 📷 Screenshots
+
+### Home Page
+
+(Add Screenshot)
+
+### Login
+
+(Add Screenshot)
+
+### Menu
+
+(Add Screenshot)
+
+### Cart
+
+(Add Screenshot)
+
+### Admin Dashboard
+
+(Add Screenshot)
+
+---
+
+## 📦 Requirements
+
+```
+Flask
+Flask-PyMongo
+pymongo
+gunicorn
+python-dotenv
+```
+
+Install using
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 🔐 Future Enhancements
+
+- Online Payment Integration
+- Email Notifications
+- QR Code Based Ordering
+- Live Order Tracking
+- Mobile Responsive UI Improvements
+- Analytics Dashboard
+- AWS RDS Integration
+- Docker Support
+- CI/CD using GitHub Actions
+
+---
+
+## 👨‍💻 Author
+
+**Mandar Kulkarni**
+
+GitHub: https://github.com/mandark-87
+
+LinkedIn: https://www.linkedin.com/in/mandarkulkarni/
+
+---
+
+## ⭐ Support
+
+If you found this project useful, please consider giving it a ⭐ on GitHub.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+>>>>>>> 28c2766 (Add remaining project files)
