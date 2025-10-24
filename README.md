@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🍽️ Campus Canteen Ordering System
 
 A full-stack web application for self-ordering in campus canteens with real-time order tracking and token generation.
@@ -24,3 +25,7 @@ A full-stack web application for self-ordering in campus canteens with real-time
    ```bash
    git clone https://github.com/yourusername/canteen-ordering-system.git
    cd canteen-ordering-system
+=======
+# Canteen-order-system
+A Flask + MySQL based web app for managing canteen orders. Includes user login, food menu, cart, and admin dashboard for order and menu management
+>>>>>>> 7658b2d0148b58d64e1c27fb4566571b75238f3a
