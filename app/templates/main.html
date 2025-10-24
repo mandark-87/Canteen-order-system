@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canteen Ordering System</title>
+     <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fef9f3 0%, #f5e6d3 100%);
+            color: #5a3921;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            color: white;
+            padding: 1.8rem;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(230, 126, 34, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #f1c40f, #e67e22, #d35400);
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #f1c40f;
+        }
+        
+        .tab {
+            padding: 18px 20px;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+            transition: all 0.4s ease;
+            font-weight: 600;
+            background: white;
+            color: #7e5109;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tab::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 4px;
+            background: #e67e22;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .tab.active {
+            background: linear-gradient(to bottom, #fef9e7, #fcf3cf);
+            color: #d35400;
+        }
+        
+        .tab.active::after {
+            width: 100%;
+        }
+        
+        .tab:hover:not(.active) {
+            background: #fef9e7;
+            color: #e67e22;
+        }
+        
+        .tab-content {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            min-height: 500px;
+            border: 1px solid #f7dc6f;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .menu-category {
+            margin-bottom: 35px;
+        }
+        
+        .category-title {
+            font-size: 1.7rem;
+            margin-bottom: 20px;
+            color: #7e5109;
+            border-bottom: 3px solid #f1c40f;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .menu-item {
+            background: linear-gradient(145deg, #ffffff, #fef9e7);
+            border-radius: 15px;
+            padding: 25px 20px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 2px solid #f7dc6f;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .menu-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #f1c40f, #e67e22);
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(230, 126, 34, 0.15);
+            border-color: #e67e22;
+        }
+        
+        .menu-item.selected {
+            border-color: #e67e22;
+            background: linear-gradient(145deg, #fef5e7, #fdebd0);
+            box-shadow: 0 8px 20px rgba(230, 126, 34, 0.2);
+        }
+        
+        .item-name {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #7e5109;
+        }
+        
+        .item-price {
+            color: #e74c3c;
+            font-weight: 800;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .item-price::before {
+            content: "₹";
+            font-size: 1.1rem;
+        }
+        
+        .item-description {
+            color: #a1887f;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .quantity-btn {
+            background: linear-gradient(to bottom, #e67e22, #d35400);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(211, 84, 0, 0.3);
+        }
+        
+        .quantity-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 12px rgba(211, 84, 0, 0.4);
+        }
+        
+        .quantity-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .quantity-display {
+            font-weight: 700;
+            font-size: 1.3rem;
+            min-width: 45px;
+            text-align: center;
+            color: #7e5109;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px;
+            border-bottom: 1px solid #f7dc6f;
+            transition: background-color 0.3s;
+            border-radius: 10px;
+        }
+        
+        .cart-item:hover {
+            background-color: #fef9e7;
+        }
+        
+        .cart-item-details {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: #7e5109;
+        }
+        
+        .cart-item-price {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+        
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .cart-total {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-align: right;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 3px solid #f1c40f;
+            color: #7e5109;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .payment-method {
+            background: linear-gradient(145deg, #ffffff, #fef9e7);
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            border: 3px solid #f7dc6f;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .payment-method::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #f1c40f, #e67e22);
+        }
+        
+        .payment-method.selected {
+            border-color: #e67e22;
+            background: linear-gradient(145deg, #fef5e7, #fdebd0);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(230, 126, 34, 0.2);
+        }
+        
+        .payment-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .payment-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #7e5109;
+            margin-bottom: 8px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 700;
+            transition: all 0.4s ease;
+            display: block;
+            width: 100%;
+            margin-top: 25px;
+            box-shadow: 0 5px 15px rgba(230, 126, 34, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(230, 126, 34, 0.6);
+        }
+        
+        .btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn:disabled::before {
+            display: none;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+        }
+        
+        .btn-success:hover {
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.6);
+        }
+        
+        .token-display {
+            text-align: center;
+            padding: 50px 40px;
+            background: linear-gradient(135deg, #fef9e7, #fcf3cf);
+            border-radius: 20px;
+            margin-top: 25px;
+            border: 3px solid #f1c40f;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .token-display::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #f1c40f, #e67e22, #f1c40f);
+        }
+        
+        .token-number {
+            font-size: 5rem;
+            font-weight: 900;
+            color: #e74c3c;
+            margin: 30px 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .order-summary {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(145deg, #fef9e7, #fcf3cf);
+            border-radius: 15px;
+            border-left: 6px solid #f1c40f;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f7dc6f;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 50px 30px;
+            color: #a1887f;
+        }
+        
+        .empty-cart-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        
+        .food-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .token-number {
+                font-size: 3.5rem;
+            }
+            
+            .tab-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍽️ Campus Canteen</h1>
+            <p>Self-Ordering System - Quick, Easy & Delicious!</p>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="menu">📋 Menu</div>
+            <div class="tab" data-tab="cart">🛒 Cart (<span id="cart-count">0</span>)</div>
+            <div class="tab" data-tab="payment">💳 Payment</div>
+            <div class="tab" data-tab="token">🎫 Token</div>
+        </div>
+        
+        <!-- Menu Tab -->
+        <div class="tab-content active" id="menu-tab">
+            <div class="menu-category">
+                <h2 class="category-title">🍛 Main Courses</h2>
+                <div class="menu-items" id="main-courses">
+                    <!-- Main courses will be loaded by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="menu-category">
+                <h2 class="category-title">🥤 Beverages</h2>
+                <div class="menu-items" id="beverages">
+                    <!-- Beverages will be loaded by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="menu-category">
+                <h2 class="category-title">🍰 Desserts</h2>
+                <div class="menu-items" id="desserts">
+                    <!-- Desserts will be loaded by JavaScript -->
+                </div>
+            </div>
+            
+            <button class="btn" id="view-cart-btn">View Cart & Checkout</button>
+        </div>
+        
+        <!-- Cart Tab -->
+        <div class="tab-content" id="cart-tab">
+            <h2>🛒 Your Order</h2>
+            <div id="cart-items">
+                <div class="empty-cart">
+                    <div class="empty-cart-icon">🛒</div>
+                    <h3>Your cart is empty</h3>
+                    <p>Add some delicious items from the menu!</p>
+                </div>
+            </div>
+            <div class="cart-total">
+                Total: ₹<span id="cart-total">0</span>
+            </div>
+            <button class="btn" id="proceed-to-payment" disabled>Proceed to Payment</button>
+        </div>
+        
+        <!-- Payment Tab -->
+        <div class="tab-content" id="payment-tab">
+            <h2>💳 Select Payment Method</h2>
+            <div class="payment-methods">
+                <div class="payment-method" data-method="upi">
+                    <div class="payment-icon">📱</div>
+                    <div class="payment-name">UPI Payment</div>
+                    <small>Fast & Secure</small>
+                </div>
+                <div class="payment-method" data-method="card">
+                    <div class="payment-icon">💳</div>
+                    <div class="payment-name">Credit/Debit Card</div>
+                    <small>Visa, MasterCard, RuPay</small>
+                </div>
+                <div class="payment-method" data-method="cash">
+                    <div class="payment-icon">💵</div>
+                    <div class="payment-name">Cash</div>
+                    <small>Pay at counter</small>
+                </div>
+            </div>
+            
+            <div id="payment-details" style="display: none;">
+                <div class="order-summary">
+                    <h3>📋 Order Summary</h3>
+                    <div id="order-summary-items">
+                        <!-- Order items will be dynamically added here -->
+                    </div>
+                    <div class="cart-total">
+                        Total: ₹<span id="order-total">0</span>
+                    </div>
+                </div>
+                
+                <div id="payment-form">
+                    <!-- Payment form will be dynamically added based on method -->
+                </div>
+                
+                <button class="btn btn-success" id="confirm-payment" disabled>Confirm Payment</button>
+            </div>
+        </div>
+        
+        <!-- Token Tab -->
+        <div class="tab-content" id="token-tab">
+            <h2>✅ Order Confirmed!</h2>
+            <div class="token-display">
+                <p>Your order is being prepared with love! ❤️</p>
+                <div class="token-number" id="token-number">--</div>
+                <p>⏰ Estimated waiting time: <strong>15-20 minutes</strong></p>
+                <p>🎯 Please present this token at the counter</p>
+                <p>Thank you for your order! 🙏</p>
+            </div>
+            
+            <div class="order-summary">
+                <h3>📦 Order Details</h3>
+                <div id="final-order-summary">
+                    <!-- Final order summary will be dynamically added here -->
+                </div>
+                <div class="cart-total">
+                    Total Paid: ₹<span id="final-total">0</span>
+                </div>
+            </div>
+            
+            <button class="btn" id="new-order-btn">Place New Order</button>
+        </div>
+    </div>
+<script>
+    // Application State
+const state = {
+    cart: [],
+    selectedPaymentMethod: null,
+    orderToken: null,
+    menuItems: []
+};
+
+// API Base URL
+const API_BASE = 'http://localhost:5000/api';
+
+// DOM Elements
+const elements = {
+    tabs: document.querySelectorAll('.tab'),
+    tabContents: document.querySelectorAll('.tab-content'),
+    cartCount: document.getElementById('cart-count'),
+    cartItems: document.getElementById('cart-items'),
+    cartTotal: document.getElementById('cart-total'),
+    viewCartBtn: document.getElementById('view-cart-btn'),
+    proceedToPaymentBtn: document.getElementById('proceed-to-payment'),
+    paymentMethods: document.querySelectorAll('.payment-method'),
+    confirmPaymentBtn: document.getElementById('confirm-payment'),
+    newOrderBtn: document.getElementById('new-order-btn'),
+    paymentDetails: document.getElementById('payment-details'),
+    paymentForm: document.getElementById('payment-form'),
+    orderSummaryItems: document.getElementById('order-summary-items'),
+    orderTotal: document.getElementById('order-total'),
+    tokenNumber: document.getElementById('token-number'),
+    finalOrderSummary: document.getElementById('final-order-summary'),
+    finalTotal: document.getElementById('final-total')
+};
+
+// Initialize Application
+async function initApp() {
+    await loadMenuFromAPI();
+    setupEventListeners();
+    updateCartBadge();
+}
+
+// Load menu items from API
+async function loadMenuFromAPI() {
+    try {
+        console.log('🟢 Starting to load menu from API...');
+        const response = await fetch(`${API_BASE}/menu`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('🟢 API Response data:', data);
+        
+        if (data && data.success && Array.isArray(data.items)) {
+            state.menuItems = data.items;
+            console.log(`🟢 Loaded ${state.menuItems.length} items from API`);
+        } else {
+            throw new Error('Unexpected API response structure');
+        }
+    } catch (error) {
+        console.error('🔴 Failed to load menu:', error);
+        // Fallback to default menu items
+        state.menuItems = [
+            { _id: "1", name: "Chicken Biryani", price: 180, description: "Fragrant basmati rice with tender chicken and aromatic spices", category: "main", available: true },
+            { _id: "2", name: "Paneer Butter Masala", price: 160, description: "Soft cottage cheese in rich, creamy tomato gravy", category: "main", available: true },
+            { _id: "3", name: "Veg Fried Rice", price: 120, description: "Stir-fried rice with fresh vegetables and soy sauce", category: "main", available: true },
+            { _id: "4", name: "Chicken Curry", price: 150, description: "Spicy chicken curry with traditional Indian spices", category: "main", available: true },
+            { _id: "5", name: "Cold Coffee", price: 80, description: "Chilled coffee with milk and ice cream", category: "beverage", available: true },
+            { _id: "6", name: "Fresh Lime Soda", price: 50, description: "Refreshing lime juice with soda and mint", category: "beverage", available: true },
+            { _id: "7", name: "Masala Chai", price: 30, description: "Traditional Indian tea with aromatic spices", category: "beverage", available: true },
+            { _id: "8", name: "Mango Shake", price: 70, description: "Creamy mango milkshake with ice cream", category: "beverage", available: true },
+            { _id: "9", name: "Chocolate Brownie", price: 90, description: "Warm chocolate brownie with vanilla ice cream", category: "dessert", available: true },
+            { _id: "10", name: "Gulab Jamun", price: 60, description: "Soft milk dumplings in sweet syrup", category: "dessert", available: true },
+            { _id: "11", name: "Ice Cream Scoop", price: 50, description: "Single scoop of premium ice cream", category: "dessert", available: true }
+        ];
+        console.log('🟡 Using fallback menu items');
+    } finally {
+        loadMenuItems();
+    }
+}
+
+// Load menu items into DOM
+function loadMenuItems() {
+    const mainCoursesContainer = document.getElementById('main-courses');
+    const beveragesContainer = document.getElementById('beverages');
+    const dessertsContainer = document.getElementById('desserts');
+
+    // Clear existing items
+    mainCoursesContainer.innerHTML = '';
+    beveragesContainer.innerHTML = '';
+    dessertsContainer.innerHTML = '';
+
+    // Load items by category
+    state.menuItems.forEach(item => {
+        const container = getCategoryContainer(item.category);
+        if (container) {
+            container.appendChild(createMenuItemElement(item));
+        }
+    });
+}
+
+function getCategoryContainer(category) {
+    switch(category) {
+        case 'main': return document.getElementById('main-courses');
+        case 'beverage': return document.getElementById('beverages');
+        case 'dessert': return document.getElementById('desserts');
+        default: return document.getElementById('main-courses');
+    }
+}
+
+// Create menu item element - CORRECTED VERSION
+function createMenuItemElement(item) {
+    const div = document.createElement('div');
+    div.className = 'menu-item';
+    
+    // Use _id for MongoDB
+    const itemId = item._id;
+    const itemName = item.name;
+    const itemPrice = item.price;
+    
+    div.innerHTML = `
+        <div class="item-name">${itemName}</div>
+        <div class="item-price">₹${itemPrice}</div>
+        <div class="item-description">${item.description}</div>
+        <div class="quantity-controls">
+            <button class="quantity-btn minus">-</button>
+            <span class="quantity-display">0</span>
+            <button class="quantity-btn plus">+</button>
+        </div>
+    `;
+
+    const minusBtn = div.querySelector('.minus');
+    const plusBtn = div.querySelector('.plus');
+    const quantityDisplay = div.querySelector('.quantity-display');
+
+    plusBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        addToCart(itemId, itemName, itemPrice);
+        const newQuantity = getItemQuantity(itemId);
+        quantityDisplay.textContent = newQuantity;
+        minusBtn.disabled = newQuantity === 0;
+    });
+
+    minusBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        removeFromCart(itemId);
+        const newQuantity = getItemQuantity(itemId);
+        quantityDisplay.textContent = newQuantity;
+        minusBtn.disabled = newQuantity === 0;
+    });
+
+    return div;
+}
+
+// Cart Management - CORRECTED VERSION
+function addToCart(itemId, itemName, itemPrice) {
+    console.log('🟢 Adding to cart:', { itemId, itemName, itemPrice });
+    
+    // Check if item already in cart
+    const existingItem = state.cart.find(item => item.id === itemId);
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+        console.log('🟢 Increased quantity for:', itemName);
+    } else {
+        state.cart.push({
+            id: itemId,
+            name: itemName,
+            price: itemPrice,
+            quantity: 1
+        });
+        console.log('🟢 Added new item to cart:', itemName);
+    }
+    
+    console.log('🟢 Updated cart:', state.cart);
+    updateCartDisplay();
+    updateCartBadge();
+    showNotification(`${itemName} added to cart!`);
+}
+
+function removeFromCart(itemId) {
+    const itemIndex = state.cart.findIndex(item => item.id === itemId);
+    
+    if (itemIndex !== -1) {
+        if (state.cart[itemIndex].quantity > 1) {
+            state.cart[itemIndex].quantity -= 1;
+        } else {
+            state.cart.splice(itemIndex, 1);
+        }
+    }
+    
+    updateCartDisplay();
+    updateCartBadge();
+}
+
+function getItemQuantity(itemId) {
+    const item = state.cart.find(cartItem => cartItem.id === itemId);
+    return item ? item.quantity : 0;
+}
+
+function updateCartBadge() {
+    const totalItems = state.cart.reduce((total, item) => total + item.quantity, 0);
+    elements.cartCount.textContent = totalItems;
+}
+
+function updateCartDisplay() {
+    const cartItemsContainer = elements.cartItems;
+    
+    if (state.cart.length === 0) {
+        cartItemsContainer.innerHTML = `
+            <div class="empty-cart">
+                <div class="empty-cart-icon">🛒</div>
+                <h3>Your cart is empty</h3>
+                <p>Add some delicious items from the menu!</p>
+            </div>
+        `;
+        elements.cartTotal.textContent = '0';
+        elements.proceedToPaymentBtn.disabled = true;
+        return;
+    }
+    
+    let html = '';
+    let total = 0;
+    
+    state.cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        
+        html += `
+            <div class="cart-item">
+                <div class="cart-item-details">
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-price">₹${item.price} x ${item.quantity}</div>
+                </div>
+                <div class="cart-item-controls">
+                    <button class="quantity-btn minus" onclick="removeFromCart('${item.id}')">-</button>
+                    <span class="quantity-display">${item.quantity}</span>
+                    <button class="quantity-btn plus" onclick="addToCart('${item.id}', '${item.name}', ${item.price})">+</button>
+                </div>
+                <div style="font-weight: 600; min-width: 80px; text-align: right;">₹${itemTotal}</div>
+            </div>
+        `;
+    });
+    
+    cartItemsContainer.innerHTML = html;
+    elements.cartTotal.textContent = total;
+    elements.proceedToPaymentBtn.disabled = false;
+}
+
+// Payment Management
+function setupPaymentForm(method) {
+    let formHTML = '';
+    
+    switch(method) {
+        case 'upi':
+            formHTML = `
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #7e5109;">UPI ID</label>
+                    <input type="text" id="upi-id" placeholder="yourname@upi" 
+                           style="width: 100%; padding: 12px; border: 2px solid #f1c40f; border-radius: 8px; font-size: 1rem; background: #fef9e7;"
+                           oninput="validatePaymentForm()">
+                </div>
+            `;
+            break;
+            
+        case 'card':
+            formHTML = `
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #7e5109;">Card Number</label>
+                    <input type="text" id="card-number" placeholder="1234 5678 9012 3456" 
+                           style="width: 100%; padding: 12px; border: 2px solid #f1c40f; border-radius: 8px; font-size: 1rem; background: #fef9e7;"
+                           oninput="validatePaymentForm()">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #7e5109;">Expiry Date</label>
+                        <input type="text" id="expiry-date" placeholder="MM/YY" 
+                               style="width: 100%; padding: 12px; border: 2px solid #f1c40f; border-radius: 8px; font-size: 1rem; background: #fef9e7;"
+                               oninput="validatePaymentForm()">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #7e5109;">CVV</label>
+                        <input type="text" id="cvv" placeholder="123" 
+                               style="width: 100%; padding: 12px; border: 2px solid #f1c40f; border-radius: 8px; font-size: 1rem; background: #fef9e7;"
+                               oninput="validatePaymentForm()">
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #7e5109;">Cardholder Name</label>
+                    <input type="text" id="cardholder-name" placeholder="John Doe" 
+                           style="width: 100%; padding: 12px; border: 2px solid #f1c40f; border-radius: 8px; font-size: 1rem; background: #fef9e7;"
+                           oninput="validatePaymentForm()">
+                </div>
+            `;
+            break;
+            
+        case 'cash':
+            formHTML = `
+                <div style="text-align: center; padding: 20px; background: #fef5e7; border-radius: 8px; border: 2px solid #f1c40f;">
+                    <h3 style="color: #7e5109; margin-bottom: 10px;">Pay at Counter</h3>
+                    <p style="font-size: 1.2rem; font-weight: 600; color: #e74c3c;">
+                        Total Amount: ₹<span id="cash-amount">${elements.orderTotal.textContent}</span>
+                    </p>
+                    <p style="margin-top: 10px; color: #a1887f;">
+                        Please proceed to the counter and show your token to make payment
+                    </p>
+                </div>
+            `;
+            break;
+    }
+    
+    elements.paymentForm.innerHTML = formHTML;
+    validatePaymentForm();
+}
+
+function validatePaymentForm() {
+    if (state.selectedPaymentMethod === 'cash') {
+        elements.confirmPaymentBtn.disabled = false;
+        return;
+    }
+    
+    let isValid = true;
+    
+    if (state.selectedPaymentMethod === 'upi') {
+        const upiId = document.getElementById('upi-id');
+        isValid = upiId && upiId.value.includes('@');
+    } else if (state.selectedPaymentMethod === 'card') {
+        const cardNumber = document.getElementById('card-number');
+        const expiryDate = document.getElementById('expiry-date');
+        const cvv = document.getElementById('cvv');
+        const cardholderName = document.getElementById('cardholder-name');
+        
+        isValid = cardNumber && cardNumber.value.replace(/\s/g, '').length === 16 &&
+                 expiryDate && expiryDate.value.length === 5 &&
+                 cvv && cvv.value.length === 3 &&
+                 cardholderName && cardholderName.value.length > 0;
+    }
+    
+    elements.confirmPaymentBtn.disabled = !isValid;
+}
+
+function updateOrderSummary() {
+    let html = '';
+    let total = 0;
+    
+    state.cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        
+        html += `
+            <div class="order-item">
+                <span>${item.name} (${item.quantity})</span>
+                <span>₹${itemTotal}</span>
+            </div>
+        `;
+    });
+    
+    elements.orderSummaryItems.innerHTML = html;
+    elements.orderTotal.textContent = total;
+}
+
+// API call to create order
+async function createOrder(orderData) {
+    try {
+        console.log('Creating order:', orderData);
+        
+        const response = await fetch('http://127.0.0.1:5000/api/order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(orderData)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log('Order response:', result);
+        
+        return result;
+        
+    } catch (error) {
+        console.error('Error creating order:', error);
+        throw error;
+    }
+}
+
+async function showToken() {
+    try {
+        // Prepare order data from cart and form inputs
+        const orderData = {
+            items: state.cart,
+            customer_name: document.getElementById('customerName')?.value || 'Anonymous',
+            customer_phone: document.getElementById('customerPhone')?.value || '',
+            payment_method: state.selectedPaymentMethod || 'cash'
+        };
+
+        console.log('Sending order data:', orderData);
+
+        // Call createOrder with the data
+        const orderResult = await createOrder(orderData);
+        
+        if (orderResult.success) {
+            state.orderToken = orderResult.token;
+            elements.tokenNumber.textContent = state.orderToken;
+            
+            let html = '';
+            let total = 0;
+            
+            state.cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                html += `
+                    <div class="order-item">
+                        <span>${item.name} (${item.quantity})</span>
+                        <span>₹${itemTotal.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+            
+            elements.finalOrderSummary.innerHTML = html;
+            elements.finalTotal.textContent = `₹${total.toFixed(2)}`;
+            
+            console.log('Order placed successfully:', orderResult);
+            
+            // Show success message
+            alert(`Order placed successfully! Your token number is ${orderResult.token}`);
+            
+        } else {
+            throw new Error(orderResult.error || 'Failed to place order');
+        }
+        
+    } catch (error) {
+        alert('Failed to place order. Please try again.');
+        console.error('Order placement error:', error);
+    }
+}
+
+function showNotification(message) {
+    // Simple notification - you can enhance this with a proper toast
+    console.log('📢 Notification:', message);
+}
+
+function resetOrder() {
+    state.cart = [];
+    state.selectedPaymentMethod = null;
+    state.orderToken = null;
+    updateCartDisplay();
+    updateCartBadge();
+}
+
+// Event Listeners
+function setupEventListeners() {
+    // Tab switching
+    elements.tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabId = tab.getAttribute('data-tab');
+            
+            // Update active tab
+            elements.tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            // Show corresponding content
+            elements.tabContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === `${tabId}-tab`) {
+                    content.classList.add('active');
+                }
+            });
+            
+            // Special handling for specific tabs
+            if (tabId === 'cart') {
+                updateCartDisplay();
+            } else if (tabId === 'payment') {
+                elements.paymentDetails.style.display = state.cart.length > 0 ? 'block' : 'none';
+                if (state.cart.length > 0) {
+                    updateOrderSummary();
+                }
+            }
+        });
+    });
+
+    // View cart button
+    elements.viewCartBtn.addEventListener('click', () => {
+        elements.tabs.forEach(t => t.classList.remove('active'));
+        document.querySelector('.tab[data-tab="cart"]').classList.add('active');
+        elements.tabContents.forEach(content => {
+            content.classList.remove('active');
+            if (content.id === 'cart-tab') {
+                content.classList.add('active');
+            }
+        });
+        updateCartDisplay();
+    });
+
+    // Proceed to payment
+    elements.proceedToPaymentBtn.addEventListener('click', () => {
+        elements.tabs.forEach(t => t.classList.remove('active'));
+        document.querySelector('.tab[data-tab="payment"]').classList.add('active');
+        elements.tabContents.forEach(content => {
+            content.classList.remove('active');
+            if (content.id === 'payment-tab') {
+                content.classList.add('active');
+            }
+        });
+        updateOrderSummary();
+        elements.paymentDetails.style.display = 'block';
+    });
+
+    // Payment method selection
+    elements.paymentMethods.forEach(method => {
+        method.addEventListener('click', () => {
+            elements.paymentMethods.forEach(m => m.classList.remove('selected'));
+            method.classList.add('selected');
+            state.selectedPaymentMethod = method.getAttribute('data-method');
+            setupPaymentForm(state.selectedPaymentMethod);
+        });
+    });
+
+    // Confirm payment
+    elements.confirmPaymentBtn.addEventListener('click', () => {
+        showToken();
+        elements.tabs.forEach(t => t.classList.remove('active'));
+        document.querySelector('.tab[data-tab="token"]').classList.add('active');
+        elements.tabContents.forEach(content => {
+            content.classList.remove('active');
+            if (content.id === 'token-tab') {
+                content.classList.add('active');
+            }
+        });
+    });
+
+    // New order button
+    elements.newOrderBtn.addEventListener('click', () => {
+        resetOrder();
+        elements.tabs.forEach(t => t.classList.remove('active'));
+        document.querySelector('.tab[data-tab="menu"]').classList.add('active');
+        elements.tabContents.forEach(content => {
+            content.classList.remove('active');
+            if (content.id === 'menu-tab') {
+                content.classList.add('active');
+            }
+        });
+    });
+}
+
+// Make functions available globally for inline event handlers
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.validatePaymentForm = validatePaymentForm;
+
+// Initialize the application
+document.addEventListener('DOMContentLoaded', initApp);
+</script>
+</body>
+</html>

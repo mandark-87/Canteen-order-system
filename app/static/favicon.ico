@@ -1,0 +1,26 @@
+from flask import Flask, send_from_directory
+from flask_pymongo import PyMongo
+import os
+
+app = Flask(__name__)
+app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+mongo = PyMongo(app)
+
+# Favicon route - place it here, after app creation
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                             'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+# Your main routes
+@app.route('/')
+def home():
+    return "Connected to MongoDB!"
+
+# Other routes can go here
+@app.route('/about')
+def about():
+    return "About page"
+
+if __name__ == '__main__':
+    app.run(debug=True)
