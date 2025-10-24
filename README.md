@@ -23,7 +23,7 @@ A full-stack web application for self-ordering in campus canteens with real-time
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/canteen-ordering-system.git
+   git clone https://github.com/mandark-87/canteen-ordering-system.git
    cd canteen-ordering-system
 =======
 # Canteen-order-system
