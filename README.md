@@ -75,17 +75,6 @@ Estimated waiting time display
 Order confirmation page
 Token stored in MongoDB
 
-📦 5️⃣ MongoDB Order Storage
-![MongoDB](https://github.com/user-attachments/assets/b514947d-e8cf-4d17-aa42-c57a6b531aa1)
-
-Each order stores:
-Items list
-Total amount
-Payment method
-Token number
-Status (preparing/completed)
-Created & updated timestamps
-
 🛠️ Admin / Database View
 View orders in MongoDB Compass
 Track:
