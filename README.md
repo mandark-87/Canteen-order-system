@@ -6,16 +6,20 @@ Students can browse menu items, add to cart, choose payment methods, and receive
 🚀 Live Features
 🧾 1️⃣ Interactive Food Menu
 ![Menu](https://github.com/user-attachments/assets/9e7bf218-0276-42a1-9b38-119b0b24f477)
-Categorized sections (Main Course, Beverages, Desserts)
-Real-time quantity increase/decrease
-Dynamic price calculation
+- Categorized sections (Main Course, Beverages, Desserts)
+- Real-time quantity increase/decrease
+- Dynamic price calculation
+  
+---
 
 🛒 2️⃣ Smart Cart System
 ![Cart](https://github.com/user-attachments/assets/d66a8a63-b30a-4d82-bc8d-accc1ed8f8e9)
-View selected items
-Modify quantity
-Auto total calculation
-Clean checkout UI
+- View selected items
+- Modify quantity
+- Auto total calculation
+- Clean checkout UI
+
+---
 
 💳 3️⃣ Multiple Payment Methods
 ✅ UPI Payment
@@ -23,6 +27,7 @@ Clean checkout UI
 - Secure UPI input  
 - Order summary display  
 - Dynamic total
+
 ---
 
 ✅ Credit/Debit Card
@@ -30,6 +35,7 @@ Clean checkout UI
 - Card number validation  
 - Expiry & CVV input  
 - Clean modern UI
+  
 ---
 
 ✅ Cash at Counter
@@ -41,6 +47,7 @@ Dynamic forms appear based on selected payment method.
 
 🎫 4️⃣ Automatic Token Generation
 # 📸 Application Screenshots
+---
 
 ## 🏠 Menu Page
 ![Menu](https://github.com/user-attachments/assets/9e7bf218-0276-42a1-9b38-119b0b24f477)
