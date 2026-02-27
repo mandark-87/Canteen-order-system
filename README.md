@@ -4,49 +4,7 @@ A modern full-stack self-ordering web application built for campus canteens.
 Students can browse menu items, add to cart, choose payment methods, and receive a unique token for order tracking.
 
 🚀 Live Features
-🧾 1️⃣ Interactive Food Menu
-![Menu](https://github.com/user-attachments/assets/9e7bf218-0276-42a1-9b38-119b0b24f477)
-- Categorized sections (Main Course, Beverages, Desserts)
-- Real-time quantity increase/decrease
-- Dynamic price calculation
-  
----
 
-🛒 2️⃣ Smart Cart System
-![Cart](https://github.com/user-attachments/assets/d66a8a63-b30a-4d82-bc8d-accc1ed8f8e9)
-- View selected items
-- Modify quantity
-- Auto total calculation
-- Clean checkout UI
-
----
-
-💳 3️⃣ Multiple Payment Methods
-✅ UPI Payment
-![UPI](https://github.com/user-attachments/assets/1dabac0b-decf-479c-ab97-aa729791aea6)
-- Secure UPI input  
-- Order summary display  
-- Dynamic total
-
----
-
-✅ Credit/Debit Card
-![Card](https://github.com/user-attachments/assets/abbca28c-4709-441d-bf09-7d5e7b3b576e)
-- Card number validation  
-- Expiry & CVV input  
-- Clean modern UI
-  
----
-
-✅ Cash at Counter
-![Cash](https://github.com/user-attachments/assets/b88aed04-02c4-471d-be2a-73f586a49301)
-- Pay at counter option  
-- Total amount display  
-- Confirm payment  
-Dynamic forms appear based on selected payment method.
-
-🎫 4️⃣ Automatic Token Generation
-# 📸 Application Screenshots
 ---
 
 ## 🏠 Menu Page
