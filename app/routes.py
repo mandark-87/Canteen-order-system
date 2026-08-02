@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, render_template
 from bson import ObjectId
 from bson.errors import InvalidId
 import random
@@ -189,20 +189,7 @@ def calculate_estimated_time(items):
 # API Routes - USE @bp.route INSTEAD OF @app.route
 @bp.route('/')
 def home():
-    return jsonify({
-        "message": "🍽️ Canteen API is running!", 
-        "database": "MongoDB + SQLite",
-        "version": "2.0",
-        "timestamp": datetime.now().isoformat(),
-        "endpoints": {
-            "health": "/api/health",
-            "menu": "/api/menu",
-            "categories": "/api/menu/categories",
-            "create_order": "/api/order (POST)",
-            "get_orders": "/api/orders",
-            "stats": "/api/stats"
-        }
-    })
+    return render_template("index.html")
 
 @bp.route('/api/health')
 def health_check():
