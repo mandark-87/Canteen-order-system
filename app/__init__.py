@@ -16,9 +16,9 @@ def create_app():
     mongo.init_app(app)
     
     # Initialize MongoDB with sample data
-    with app.app_context():
-        from app.models import init_mongodb
-        init_mongodb()
+    # with app.app_context():
+    #     from app.models import init_mongodb
+    #     init_mongodb()
     
     # Register blueprints/routes
     from app.routes import bp
